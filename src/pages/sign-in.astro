@@ -1,0 +1,26 @@
+---
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Sign In">
+  <main
+    class="flex flex-col gap-5 items-center justify-center h-[calc(100dvh-53px)]"
+  >
+    <h1 class="text-3xl font-extrabold mb-2">Sign In</h1>
+
+    <form class="w-full max-w-[300px] flex flex-col gap-3">
+      <Input type="email" name="email" placeholder="hello@example.com" />
+      <Input type="password" name="password" placeholder="Secret" />
+      <Button type="submit" className="mt-2"> Sign In </Button>
+    </form>
+
+    <div class="flex items-center mt-2">
+      <p>You don't have an account?</p>
+      <Button variant="link" size="sm">
+        <a href="/sign-up" class="font-semibold">Sign Up</a>
+      </Button>
+    </div>
+  </main>
+</Layout>

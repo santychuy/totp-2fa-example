@@ -1,0 +1,14 @@
+---
+import TwoFactorForm from "@/components/TwoFactorForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Sign In">
+  <main
+    class="flex flex-col gap-5 items-center justify-center h-[calc(100dvh-53px)]"
+  >
+    <h1 class="text-3xl font-extrabold mb-2">Enter 2FA Code</h1>
+
+    <TwoFactorForm client:load />
+  </main>
+</Layout>
