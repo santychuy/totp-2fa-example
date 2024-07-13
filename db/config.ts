@@ -5,6 +5,7 @@ const User = defineTable({
     id: column.text({ primaryKey: true }),
     email: column.text({ unique: true }),
     password: column.text(),
+    twoFactorSecret: column.text({ optional: true }),
   },
 });
 

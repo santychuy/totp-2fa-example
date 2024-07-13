@@ -52,6 +52,7 @@ export async function POST(context: APIContext): Promise<Response> {
     id: userId,
     email,
     password: passwordHash,
+    twoFactorSecret: null,
   });
 
   const session = await lucia.createSession(userId, {});
