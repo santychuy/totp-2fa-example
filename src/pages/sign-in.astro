@@ -2,6 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Layout from "@/layouts/Layout.astro";
+
+const user = Astro.locals.user;
+
+if (user) {
+  return Astro.redirect("/");
+}
 ---
 
 <Layout title="Sign In">
@@ -10,7 +16,11 @@ import Layout from "@/layouts/Layout.astro";
   >
     <h1 class="text-3xl font-extrabold mb-2">Sign In</h1>
 
-    <form class="w-full max-w-[300px] flex flex-col gap-3">
+    <form
+      class="w-full max-w-[300px] flex flex-col gap-3"
+      method="post"
+      action="/api/signin"
+    >
       <Input type="email" name="email" placeholder="hello@example.com" />
       <Input type="password" name="password" placeholder="Secret" />
       <Button type="submit" className="mt-2"> Sign In </Button>

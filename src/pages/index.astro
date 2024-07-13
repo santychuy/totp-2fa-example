@@ -1,15 +1,43 @@
 ---
 import { Button } from "@/components/ui/button";
 import Layout from "@/layouts/Layout.astro";
+
+const user = Astro.locals.user;
 ---
 
 <Layout title="TOTP 2FA Example">
   <main
-    class="flex flex-col gap-5 items-center justify-center h-[calc(100dvh-53px)]"
+    class="flex flex-col gap-7 items-center justify-center h-[calc(100dvh-53px)]"
   >
-    <h1 class="text-3xl font-extrabold">Authenticate</h1>
-    <Button size="lg">
-      <a href="/sign-in" class="text-xl">Sign In</a>
-    </Button>
+    <h1 class="text-3xl font-extrabold">
+      {user ? `Hi ${user.email}` : "You're not authenticated"}
+    </h1>
+
+    {
+      user ? (
+        <div class="flex flex-col gap-2.5">
+          <Button size="lg" className="w-full">
+            <a href="/2fa">Setup 2FA</a>
+          </Button>
+
+          <form action="/api/logout" method="post">
+            <Button
+              type="submit"
+              variant="destructive"
+              size="lg"
+              className="w-full"
+            >
+              Logout
+            </Button>
+          </form>
+        </div>
+      ) : (
+        <Button size="lg">
+          <a href="/sign-in" class="text-xl">
+            Sign In
+          </a>
+        </Button>
+      )
+    }
   </main>
 </Layout>
