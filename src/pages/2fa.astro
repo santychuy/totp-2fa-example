@@ -1,6 +1,27 @@
 ---
+import { encodeHex } from "oslo/encoding";
+import { createTOTPKeyURI } from "oslo/otp";
+import { db, User, eq } from "astro:db";
+import qrcode from "qrcode";
+
 import TwoFactorForm from "@/components/TwoFactorForm";
+import DialogQRCode from "@/components/DialogQRCode";
 import Layout from "@/layouts/Layout.astro";
+
+const user = Astro.locals.user;
+
+if (!user) return Astro.redirect("/");
+
+const twoFactorSecret = crypto.getRandomValues(new Uint8Array(20));
+
+await db
+  .update(User)
+  .set({ twoFactorSecret: encodeHex(twoFactorSecret) })
+  .where(eq(User.id, user.id));
+
+const uri = createTOTPKeyURI("TOTP-2FA-Example", user.email, twoFactorSecret);
+
+const qrUrl = await qrcode.toDataURL(uri, { errorCorrectionLevel: "L" });
 ---
 
 <Layout title="Sign In">
@@ -10,5 +31,7 @@ import Layout from "@/layouts/Layout.astro";
     <h1 class="text-3xl font-extrabold mb-2">Enter 2FA Code</h1>
 
     <TwoFactorForm client:load />
+
+    <DialogQRCode qrCode={qrUrl} client:load />
   </main>
 </Layout>

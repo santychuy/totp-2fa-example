@@ -34,7 +34,7 @@ export async function POST(context: APIContext): Promise<Response> {
     .from(User)
     .where(eq(User.email, email));
 
-  if (!existingUser) {
+  if (!existingUser[0]) {
     return new Response("Incorrect username or password", {
       status: 400,
     });
@@ -51,6 +51,10 @@ export async function POST(context: APIContext): Promise<Response> {
     return new Response("Incorrect username or password", {
       status: 400,
     });
+  }
+
+  if (!!existingUser[0].twoFactorSecret) {
+    return context.redirect(`/sign-in/2fa/${existingUser[0].id}`);
   }
 
   const session = await lucia.createSession(existingUser[0].id, {});

@@ -13,11 +13,13 @@ const user = Astro.locals.user;
       {user ? `Hi ${user.email}` : "You're not authenticated"}
     </h1>
 
+    {user?.setupTwoFactor && <h2>2FA is activated</h2>}
+
     {
       user ? (
         <div class="flex flex-col gap-2.5">
           <Button size="lg" className="w-full">
-            <a href="/2fa">Setup 2FA</a>
+            <a href="/2fa">Setup 2FA {user.setupTwoFactor && "again"}</a>
           </Button>
 
           <form action="/api/logout" method="post">
